@@ -15,5 +15,8 @@ router.post("/", HistorylController.addHistory);
 router.get("/count", HistorylController.countHistory);
 //GET THEO ID
 router.get('/:id',HistorylController.getHistoryById);
-
+//CREATE REVIEW
+router.post("/reviews/:id", HistorylController.createReview);
+//GET REVIEW
+router.get("/review/all/:id", HistorylController.getReviewsById);
 export default router;

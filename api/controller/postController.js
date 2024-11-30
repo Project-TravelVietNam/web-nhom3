@@ -140,10 +140,10 @@ const postController = {
   //tạo review
   createReview: async (req, res) => {
     try {
-      const { userId, rating, comment } = req.body;
+      const { userId, comment } = req.body;
 
       const user = await User.findById(userId);
-      console.log("data", userId, rating, comment);
+      console.log("data", userId, comment);
       if (!user) {
         return res.status(400).json({ message: "Người dùng không tồn tại" });
       }
@@ -156,18 +156,11 @@ const postController = {
       // Tạo đánh giá mới
       const review = {
         username: user.username,
-        rating: Number(rating),
         comment,
         user: userId,
       };
 
       post.reviews.push(review);
-
-      // Cập nhật số lượng đánh giá và điểm trung bình
-      post.numReviews = post.reviews.length;
-      post.rating =
-        post.reviews.reduce((acc, item) => item.rating + acc, 0) /
-        post.reviews.length;
 
       await post.save();
 
