@@ -15,5 +15,8 @@ router.post("/", localController.addLocal);
 router.get("/count", localController.countLocal);
 //GET THEO ID
 router.get('/:id',localController.getLocalById);
-
+//CREATE REVIEW
+router.post("/reviews/:id", localController.createReview);
+//GET REVIEW
+router.get("/review/all/:id", localController.getReviewsById);
 export default router;
