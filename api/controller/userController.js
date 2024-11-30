@@ -32,6 +32,62 @@ const userController = {
             res.status(500).json({ message: "Có lỗi xảy ra. Vui lòng thử lại.", error: err });
         }
     },
+
+
+    facebookCallback: async (req, res) => {
+        try {
+          // Tạo token cho người dùng với đầy đủ thông tin
+          const token = jwt.sign(
+            {
+              _id: req.user._id,
+              isAdmin: req.user.isAdmin,
+              username: req.user.username,
+              email: req.user.email,
+              photos: req.user.photos || [],
+              createdAt: req.user.createdAt,
+              updatedAt: req.user.updatedAt,
+              __v: req.user.__v,
+            },
+            process.env.JWT,
+            { expiresIn: "1h" }
+          );
+    
+          // Chuyển hướng về frontend với token
+          res.redirect(`http://localhost:3000/signin?token=${token}`);
+        } catch (error) {
+          res.redirect("http://localhost:3000/signin?error=authentication_failed");
+        }
+      },
+    
+      googleCallback: async (req, res) => {
+        try {
+          // Tạo token cho người dùng
+          const token = jwt.sign(
+            {
+              _id: req.user._id,
+              isAdmin: req.user.isAdmin,
+              username: req.user.username,
+              email: req.user.email,
+              photos: req.user.photos || [],
+              createdAt: req.user.createdAt,
+              updatedAt: req.user.updatedAt,
+              __v: req.user.__v,
+            },
+            process.env.JWT,
+            { expiresIn: "1h" }
+          );
+    
+          // Chuyển hướng về frontend với token
+          res.redirect(`http://localhost:3000/signin?token=${token}`);
+        } catch (error) {
+          res.redirect("http://localhost:3000/signin?error=authentication_failed");
+        }
+      },
+
+
+
+
+
     // Đăng nhập
     loginUser: async (req, res, next) => {
         try {
@@ -65,13 +121,15 @@ const userController = {
 
     // Lấy tất cả người dùng
     getAllUsers: async (req, res, next) => {
-        try {
-            const users = await User.find();
-            res.status(200).json(users);
-        } catch (err) {
-            return next(createError(500, "Có lỗi xảy ra khi lấy thông tin người dùng"));
-        }
-    },
+    try {
+      const users = await User.find();
+      res.status(200).json(users);
+    } catch (err) {
+      return next(
+        createError(500, "Có lỗi xảy ra khi lấy thông tin người dùng")
+      );
+    }
+  },
 
     // Lấy thông tin người dùng theo ID
     getIdUser: async (req, res) => {
@@ -86,14 +144,18 @@ const userController = {
     // Đăng xuất
     logoutUser: async (req, res) => {
         try {
-            res.clearCookie("refreshToken");
-            refreshTokenArr = refreshTokenArr.filter(token => token !== req.cookies.refreshToken);
-            res.status(200).json({ message: "Đăng xuất thành công" });
+          res.clearCookie("refreshToken");
+          refreshTokenArr = refreshTokenArr.filter(
+            (token) => token !== req.cookies.refreshToken
+          );
+          res.status(200).json({ message: "Đăng xuất thành công" });
         } catch (err) {
-            console.error("Lỗi trong hàm logoutUser:", err);
-            res.status(500).json({ message: "Lỗi máy chủ nội bộ", error: err.message });
+          console.error("Lỗi trong hàm logoutUser:", err);
+          res
+            .status(500)
+            .json({ message: "Lỗi máy chủ nội bộ", error: err.message });
         }
-    },
+      },
     //check trùng
     checkUsernameExists: async (req, res) => {
         try {
@@ -104,6 +166,8 @@ const userController = {
             res.status(500).json({ message: "Có lỗi xảy ra", error: err.message });
         }
     },
+
+    
     //check trùng email
     checkEmailExists: async (req, res) => {
         try {

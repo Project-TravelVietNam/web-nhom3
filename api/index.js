@@ -5,6 +5,11 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import cookieParser from 'cookie-parser';
+import passport from "passport";
+import FacebookStrategy from "passport-facebook";
+import User from "./model/userModel.js";
+import configurePassport from "./config/passportConfig.js";
+import configPassport from "./config/passport.js";
 
 const app = express();
 
@@ -19,7 +24,8 @@ const connectDB = async () => {
     console.error("Kết nối db thất bại:", error);
   }
 };
-
+configurePassport(passport);
+configPassport();
 connectDB();
 
 app.use(bodyParser.json());

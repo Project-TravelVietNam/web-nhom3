@@ -13,7 +13,10 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: function () {
+            // Mật khẩu chỉ yêu cầu khi không có facebookId và googleId
+            return !this.facebookId && !this.googleId;
+          },
     },
     username: {
         type: String,
@@ -46,4 +49,3 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 export default User;
-
