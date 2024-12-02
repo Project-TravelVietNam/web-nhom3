@@ -10,7 +10,7 @@ function ProfilePage() {
   //state
   const [erro, setErro] = useState(null);
   const [avatar, setAvatar] = useState();
-  const { user } = useContext(AuthContext);
+  const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("posts");
   const [activeSubTab, setActiveSubTab] = useState("cultural");
@@ -84,6 +84,11 @@ function ProfilePage() {
 
       // Fetch the updated user data after updating
       await fetchUser();
+
+      
+      // Cập nhật lại user trong context
+      dispatch({ type: "UPDATE_USER", payload: { ...users } });
+      
       alert("Cập nhật thành công!");
     } catch (error) {
       console.error("Error updating:", error);

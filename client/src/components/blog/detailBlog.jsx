@@ -89,9 +89,12 @@ function DetailBlog() {
             </div>
             <div className="ContentContainer w-full h-auto overflow-y-auto pt-20">
                 {/* Blog Details */}
+                <div className="mt-6">
+          <Search />
+        </div>
                 <div className="Detail w-[90vw] h-auto px-5 mt-10 mx-auto flex flex-col lg:flex-row gap-10">
                     {/* Main Blog Content */}
-                    <div className="Detail-blog w-full lg:w-[70%]">
+                    <div className="Detail-blog w-full lg:w-[80%] mx-auto">
                         <img
                             className="Image w-full h-[509px] object-cover rounded-lg mb-6"
                             src={`http://localhost:8800/v1/img/${post.post.image}`}
@@ -119,7 +122,7 @@ function DetailBlog() {
                         </div>
 
                         <div className="w-full text-[#646464] text-xl font-medium leading-normal mb-6">
-                            <div className="Content w-full">
+                            <div className="Content w-full text-justify">
                                 {post.post.content}
                             </div>
                         </div>
@@ -127,11 +130,11 @@ function DetailBlog() {
                         <Comment postId={id} />
                     </div>
 
-                    <div className="Container w-full lg:w-[30%] h-auto overflow-hidden">
+                    {/* <div className="Container w-full lg:w-[30%] h-auto overflow-hidden">
                         <div className="BackgroundShadow w-full max-w-[600px] mx-auto h-auto p-6 bg-white shadow-md flex flex-col justify-center items-center gap-6 sm:p-8 md:p-10 lg:p-12 mb-8">
                             <Search />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

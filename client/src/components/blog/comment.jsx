@@ -91,11 +91,11 @@ function Comment({ postId }) {
      return (
         <div className="Horizontalborder w-full mt-8 pb-6 border-b border-black/20">
             {/* Header */}
-            <div className="Heading4ReletedTags w-[90%] h-[30px] text-[#151515] text-[20px] font-medium leading-[30px] flex justify-between">
-                <div className="Tag">Bình luận</div>
+            <div className="Heading4ReletedTags w-full h-[30px] text-[#151515] text-[20px] font-medium leading-[30px] flex justify-between">
+                <div className="Tag text-[22px]">Bình luận</div>
                 <button
                     onClick={() => setShowCommentsModal(true)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 text-sm"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 text-[18px] flex items-center justify-center"
                 >
                     Xem bình luận
                 </button>
@@ -104,13 +104,13 @@ function Comment({ postId }) {
             {/* Comment Input */}
             <div className="Form w-full h-auto relative flex flex-col items-start mt-4">
                 <textarea
-                    className="w-[350px] h-[80px] p-3 bg-white rounded-md border border-gray-300 text-gray-700 text-sm resize-none"
+                    className="w-full h-[80px] p-3 bg-white rounded-md border border-gray-300 text-gray-700 text-[18px] resize-none"
                     placeholder="Viết bình luận..."
                     value={formData.comment}
                     onChange={handleInputChange}
                 ></textarea>
                 <button
-                    className="mt-3 w-[100px] h-[36px] bg-blue-500 hover:bg-blue-600 rounded-md text-white text-sm font-medium"
+                    className="mt-3 w-[100px] h-[36px] bg-blue-500 hover:bg-blue-600 rounded-md text-white text-[18px] font-medium mx-auto"
                     onClick={(e) => {
                         if (!formData.comment.trim()) {
                             setShowModal(true);
