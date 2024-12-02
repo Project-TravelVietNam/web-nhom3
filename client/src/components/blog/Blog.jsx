@@ -6,8 +6,9 @@ import { Search } from "../../layouts/search";
 
 function Blog() {
   const [posts, setPosts] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
-  //show all 
+  // Hàm lấy tất cả bài viết
   const fetchPosts = async () => {
     try {
       const response = await fetch('http://localhost:8800/v1/blog/all');
@@ -18,11 +19,22 @@ function Blog() {
     } catch (error) {
       console.error('Lỗi lấy dữ liệu:', error);
     }
-  }
+  };
+
+  // Hàm lọc bài viết theo username
+  const filteredPosts = posts.filter(post => 
+    post.postedBy?.username.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   // Sắp xếp bài viết theo ngày đăng gần nhất
   const recentPosts = [...posts]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 3); // Lấy 3 bài viết gần nhất
+
+  // Lọc các bài viết gần đây theo username tìm kiếm
+  const filteredRecentPosts = recentPosts.filter(post => 
+    post.postedBy?.username.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   useEffect(() => {
     fetchPosts();
@@ -36,7 +48,7 @@ function Blog() {
       <div className="max-w-[1440px] mx-auto">
         <Header />
         <div className="mt-6">
-          <Search />
+          <Search value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
         </div>
         {/* Blog gần đây */}
         <div className="w-full flex flex-col justify-start items-center gap-2 mb-2">
@@ -44,7 +56,7 @@ function Blog() {
             Bài blog gần đây
           </div>
           <div className="w-[98%] max-w-[1800px] mx-auto px-[15px] flex flex-col lg:flex-row justify-between items-center gap-4">
-            {recentPosts.map((post) => (
+            {filteredRecentPosts.map((post) => (
               <div key={post._id} className="BlogPostCard w-full lg:w-[48%] flex flex-col justify-between items-start gap-4 h-[360px]">
                 <a href={`blog/${post._id}`} className="block hover:scale-105 transition-transform">
                   <img
@@ -93,7 +105,7 @@ function Blog() {
           </div>
           <div className="w-[98%] max-w-[1800px] mx-auto px-[15px] flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
-              {posts.map(post => (
+              {filteredPosts.map(post => (
                 <div key={post._id} className="BlogPostCard flex-col justify-start items-start gap-4 flex">
                   <a href={`blog/${post._id}`} className="block hover:scale-105 transition-transform">
                     <img

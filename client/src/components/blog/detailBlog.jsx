@@ -89,9 +89,6 @@ function DetailBlog() {
             </div>
             <div className="ContentContainer w-full h-auto overflow-y-auto pt-20">
                 {/* Blog Details */}
-                <div className="mt-6">
-          <Search />
-        </div>
                 <div className="Detail w-[90vw] h-auto px-5 mt-10 mx-auto flex flex-col lg:flex-row gap-10">
                     {/* Main Blog Content */}
                     <div className="Detail-blog w-full lg:w-[80%] mx-auto">
