@@ -117,10 +117,25 @@ function ProfilePage() {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:8800/v1/blog/showByUser?userId=${user._id}`);
+
+      if (response.data.success === false) {
+        // Không có bài viết, hiển thị thông báo
+        console.log('Không có bài viết từ người dùng này.');
+        setPosts([]); // Đặt danh sách bài viết rỗng nếu cần
+        return;
+      }
+
       console.log('Posts response:', response.data);
       setPosts(response.data.posts || []);
     } catch (error) {
-      console.error("Lỗi khi lấy bài viết:", error);
+      if (error.response?.status === 404 && error.response?.data?.message === 'Không có bài viết nào từ người dùng này.') {
+        // Hiển thị thông báo thay vì ghi lỗi ra console
+        console.log('Không có bài viết từ người dùng này.');
+        setPosts([]); // Đặt danh sách bài viết rỗng nếu cần
+      } else {
+        // Xử lý các lỗi khác
+        console.error("Lỗi khi lấy bài viết:", error);
+      }
     }
   };
   // Thêm bài viết mới
@@ -176,7 +191,7 @@ function ProfilePage() {
           imageDeleted = true;
         } else {
           alert("Lỗi khi xóa ảnh: " + imageResponse.data.message);
-          return; 
+          return;
         }
       }
 

@@ -1,49 +1,52 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     email: {
-        type: String,
+      type: String,
     },
     fullname: {
-        type: String,
+      type: String,
     },
     isAdmin: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     password: {
-        type: String,
-        required: function () {
-            // Mật khẩu chỉ yêu cầu khi không có facebookId và googleId
-            return !this.facebookId && !this.googleId;
-          },
+      type: String,
+      required: function () {
+        // Mật khẩu chỉ yêu cầu khi không có facebookId và googleId
+        this.googleId;
+      },
     },
     username: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     phone: {
-        type: String
+      type: String,
     },
     bio: {
-        type: String
+      type: String,
     },
     birthday: {
-        type: Date,
+      type: Date,
     },
     gender: {
-        type: String,
+      type: String,
     },
     avatar: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Image"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
     },
-    photos: [{
+    photos: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Image"
-    }]
-},
-    { timestamps: true },
+        ref: "Image",
+      },
+    ],
+  },
+  { timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);

@@ -93,13 +93,14 @@ const postController = {
         .sort({ createdAt: -1 })
         .populate("postedBy", "username"); // Populate thông tin user (username)
 
-      // Kiểm tra nếu không tìm thấy bài viết nào
+      // Kiểm tra nếu không tìm thấy bài viết nào trả về rỗng
       if (posts.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Không có bài viết nào từ người dùng này.",
+        return res.status(200).json({
+            success: true,
+            posts: [],
+            message: "Người dùng này chưa có bài viết nào.",
         });
-      }
+    }
 
       res.status(200).json({
         success: true,
