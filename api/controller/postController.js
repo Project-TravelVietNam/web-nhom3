@@ -70,42 +70,27 @@ const postController = {
   //show theo user id
   showPostById: async (req, res, next) => {
     try {
-      // Lấy userId từ query params
       const { userId } = req.query;
 
       if (!userId) {
-        return res
-          .status(400)
-          .json({ success: false, message: "Id không tồn tại!" });
+        return res.status(400).json({ success: false, message: "Id không tồn tại!" });
       }
 
-      // Tìm người dùng trong bảng User
       const user = await User.findById(userId);
 
       if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Người dùng không tồn tại!" });
+        return res.status(404).json({ success: false, message: "Người dùng không tồn tại!" });
       }
 
-      // Lấy bài viết của người dùng theo userId và sắp xếp theo ngày tạo mới nhất
-      const posts = await Post.find({ postedBy: userId }) // Lọc theo postedBy (userId)
+      const posts = await Post.find({ postedBy: userId })
         .sort({ createdAt: -1 })
-        .populate("postedBy", "username"); // Populate thông tin user (username)
+        .populate("postedBy", "username");
 
-      // Kiểm tra nếu không tìm thấy bài viết nào trả về rỗng
       if (posts.length === 0) {
-        return res.status(200).json({
-            success: true,
-            posts: [],
-            message: "Người dùng này chưa có bài viết nào.",
-        });
-    }
+        return res.status(200).json({ success: true, posts: [], message: "Người dùng này chưa có bài viết nào." });
+      }
 
-      res.status(200).json({
-        success: true,
-        posts,
-      });
+      res.status(200).json({ success: true, posts });
     } catch (error) {
       console.error("Lỗi khi hiển thị bài viết:", error.message);
       next(error);

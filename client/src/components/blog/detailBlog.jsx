@@ -13,6 +13,7 @@ function DetailBlog() {
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isFavorited, setIsFavorited] = useState(false);
+    const [relatedPosts, setRelatedPosts] = useState([]);
 
     //Get chi tiết
     useEffect(() => {
@@ -29,6 +30,21 @@ function DetailBlog() {
         };
         fetchPost();
     }, [id]);
+
+    useEffect(() => {
+        const fetchRelatedPosts = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8800/v1/blog/showByUser?userId=${post.post.postedBy?._id}`);
+                setRelatedPosts(response.data.posts.filter(p => p._id !== post._id));
+            } catch (error) {
+                console.error("Error fetching related posts:", error);
+            }
+        };
+
+        if (post) {
+            fetchRelatedPosts();
+        }
+    }, [post]);
 
     if (loading) {
         return <div>Loading...</div>; //đang load
@@ -127,11 +143,45 @@ function DetailBlog() {
                         <Comment postId={id} />
                     </div>
 
-                    {/* <div className="Container w-full lg:w-[30%] h-auto overflow-hidden">
-                        <div className="BackgroundShadow w-full max-w-[600px] mx-auto h-auto p-6 bg-white shadow-md flex flex-col justify-center items-center gap-6 sm:p-8 md:p-10 lg:p-12 mb-8">
-                            <Search />
-                        </div>
-                    </div> */}
+                    <div className="Container w-full lg:w-[30%] h-auto overflow-hidden">
+                        <div className="text-[#1a1a1a] text-2xl font-semibold font-['Inter'] leading-tight mb-4 text-center">Bài viết liên quan</div>
+                        {relatedPosts
+                            .filter(relatedPost => relatedPost._id !== post._id)
+                            .map((relatedPost) => (
+                            <div 
+                                key={relatedPost._id} 
+                                className="BackgroundShadow w-full max-w-[600px] mx-auto h-auto p-4 bg-white shadow-md flex gap-4 sm:p-4 md:p-8 lg:p-10 mb-8"
+                                onClick={() => window.location.href = `/blog/${relatedPost._id}`}
+                            >
+                                <div className="w-[40%]">
+                                    <img
+                                        className="Image h-[100px] w-full object-cover rounded-full"
+                                        src={`http://localhost:8800/v1/img/${relatedPost.image}`}
+                                        alt={relatedPost.title}
+                                    />
+                                </div>
+                                <div className="w-[60%] flex flex-col justify-between items-start">
+                                    <div className="HeadingAndText flex flex-col justify-start items-start gap-2">
+                                        <div className="List flex items-start gap-2 mb-2">
+                                            <div className="Item flex items-center gap-2">
+                                                <div className="text-[#646464] text-sm font-medium font-['Rajdhani'] leading-tight">
+                                                    {relatedPost.postedBy?.username}
+                                                </div>
+                                            </div>
+                                            <div className="Item flex items-center gap-2">
+                                                <div className="text-[#646464] text-sm font-medium font-['Rajdhani'] leading-tight">
+                                                    {new Date(relatedPost.createdAt).toLocaleDateString('vi-VN')}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="text-[#1a1a1a] text-base font-semibold font-['Inter'] leading-tight">
+                                            {relatedPost.title}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
