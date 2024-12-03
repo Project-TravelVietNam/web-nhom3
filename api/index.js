@@ -2,12 +2,9 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
-import morgan from "morgan";
 import dotenv from "dotenv";
 import cookieParser from 'cookie-parser';
 import passport from "passport";
-import FacebookStrategy from "passport-facebook";
-import User from "./model/userModel.js";
 import configurePassport from "./config/passportConfig.js";
 import configPassport from "./config/passport.js";
 
@@ -30,7 +27,6 @@ connectDB();
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(morgan("common"));
 app.use(cookieParser());
 
 // Routes
