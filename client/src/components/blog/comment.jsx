@@ -76,12 +76,12 @@ function Comment({ postId }) {
                     body: JSON.stringify(payload),
                 }
             );
-
             const data = await response.json();
             console.log("Response:", data);
 
             setFormData({ userId: user._id, rating: 0, comment: "" });
             alert("Đã gửi bình luận!");
+            window.location.reload();
         } catch (error) {
             console.error("Error:", error);
             alert("Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại!");

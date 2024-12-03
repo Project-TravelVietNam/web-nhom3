@@ -144,7 +144,6 @@ const postController = {
       const { userId, comment } = req.body;
 
       const user = await User.findById(userId);
-      console.log("data", userId, comment);
       if (!user) {
         return res.status(400).json({ message: "Người dùng không tồn tại" });
       }
