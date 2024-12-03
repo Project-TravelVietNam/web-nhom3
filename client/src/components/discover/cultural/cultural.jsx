@@ -2,13 +2,16 @@ import Navbar from "../../../layouts/navBar";
 import { Search } from "../../../layouts/search";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { ButtonGradient } from "../../../layouts/button";
 
 function Cultural() {
     const [culturals, setCultural] = useState([]);
     const [regions, setRegions] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const initialSearchTerm = searchParams.get("search") || "";
+    const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
     const [culturalError, setCulturalError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 16;

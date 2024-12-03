@@ -175,7 +175,7 @@ export function CardLocation() {
                             Hãy cùng khám phá {selectedLocation} thôi nào!
                         </h2>
                         <div className="flex flex-col space-y-3">
-                            <button className="bg-blue-500 text-white p-2 rounded" onClick={()=>navigate(`/location?search=${encodeURIComponent(selectedLocation)}`)}>
+                            <button className="bg-blue-500 text-white p-2 rounded" onClick={() => navigate(`/location?search=${encodeURIComponent(selectedLocation)}`)}>
                                 Địa điểm
                             </button>
                             <button className="bg-yellow-500 text-white p-2 rounded" onClick={() => navigate(`/history?search=${encodeURIComponent(selectedLocation)}`)}>
