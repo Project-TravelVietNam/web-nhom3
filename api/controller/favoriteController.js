@@ -98,7 +98,7 @@ const FavoriteController = {
       if (!item) {
         return res
           .status(404)
-          .json({ message: `Mục ${type} không tồn tại trong cơ sở dữ liệu.` });
+          .json({ message: "Không có bài viết!" });
       }
 
       // Tìm hoặc tạo mới danh sách yêu thích cho người dùng
@@ -119,7 +119,7 @@ const FavoriteController = {
         if (favorite[`${type}s`].includes(itemId)) {
           return res
             .status(400)
-            .json({ message: `Mục đã tồn tại trong danh sách yêu thích.` });
+            .json({ message: `Bài viết đã tồn tại trong danh sách yêu thích.` });
         }
 
         // Thêm mục vào danh sách yêu thích trực tiếp

@@ -44,11 +44,6 @@ export function HomeBar() {
                         <p className="text-2xl font-bold text-green-600">{userCount}</p>
                     </div>
                 </a>
-
-                <div className="bg-orange-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-2">Báo cáo mới</h3>
-                    <p className="text-2xl font-bold text-orange-600">25</p>
-                </div>
             </div>
         </div>
     )

@@ -79,7 +79,7 @@ function Comment({ postId }) {
             const data = await response.json();
             console.log("Response:", data);
 
-            setFormData({ userId: user._id, rating: 0, comment: "" });
+            setFormData({ userId: user._id, comment: "" });
             alert("Đã gửi bình luận!");
             window.location.reload();
         } catch (error) {
